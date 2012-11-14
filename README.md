@@ -5,7 +5,10 @@ Demo: http://dev.maxschuster.eu/jQuery.timer/
 jQuery wrapper for setInterval() with events
 
 # Table of contents
-{:toc}
+* <a href="#example">Example</a>
+* <a href="#methods">Methods</a>
+* <a href="#events">Events</a>
+* <a href="#settings">Settings</a>
 
 # Example
 ```JavaScript
