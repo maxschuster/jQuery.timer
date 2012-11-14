@@ -29,18 +29,18 @@
 
                 $(this).data('timer', data);
 
-                if (data.repeatCount !== 0 && data.currentCount >= data.repeatCount) {
+                if (data.settings.repeatCount !== 0 && data.currentCount >= data.settings.repeatCount) {
                     $this.timer('stop', false);
                     $this.trigger('complete.timer', {
-                        delay: data.delay,
-                        repeatCount: data.repeatCount,
+                        delay: data.settings.delay,
+                        repeatCount: data.settings.repeatCount,
                         currentCount: data.currentCount,
                         running: data.running
                     });
                 } else {
                     $this.trigger('tick.timer', {
-                        delay: data.delay,
-                        repeatCount: data.repeatCount,
+                        delay: data.settings.delay,
+                        repeatCount: data.settings.repeatCount,
                         currentCount: data.currentCount,
                         running: data.running
                     });
@@ -65,14 +65,16 @@
                 }
                 
                 data = {
-                    delay: 1000,
-                    repeatCount: 0,
                     currentCount: 0,
                     running: false,
-                    interval: null
+                    interval: null,
+                    settings: {
+                        delay: 1000,
+                        repeatCount: 1
+                    }
                 };
 
-                $.extend(data, options);
+                $.extend(data.settings, options);
 
                 $this.data('timer', data);
 
@@ -87,8 +89,8 @@
                 
                     $this.timer('stop', false);
                     $this.trigger('destroy.timer', {
-                        delay: data.delay,
-                        repeatCount: data.repeatCount,
+                        delay: data.settings.delay,
+                        repeatCount: data.settings.repeatCount,
                         currentCount: data.currentCount,
                         running: data.running
                     });
@@ -115,8 +117,8 @@
                 $(this).data('timer', data);
 
                 $this.trigger('reset.timer', {
-                    delay: data.delay,
-                    repeatCount: data.repeatCount,
+                    delay: data.settings.delay,
+                    repeatCount: data.settings.repeatCount,
                     currentCount: data.currentCount,
                     running: data.running
                 });
@@ -131,15 +133,15 @@
                         data = $this.data('timer');
 
                 $.extend(data, {
-                    interval: setInterval($.proxy(privateMethods.tick, $this), data.delay),
+                    interval: setInterval($.proxy(privateMethods.tick, $this), data.settings.delay),
                     running: true
                 });
 
                 $(this).data('timer', data);
 
                 $this.trigger('start.timer', {
-                    delay: data.delay,
-                    repeatCount: data.repeatCount,
+                    delay: data.settings.delay,
+                    repeatCount: data.settings.repeatCount,
                     currentCount: data.currentCount,
                     running: data.running
                 });
@@ -147,10 +149,10 @@
             });
 
         },
-        'stop': function(sendEvent) {
+        'stop': function(triggerEvent) {
 
-            if (sendEvent === undefined) {
-                sendEvent = true;
+            if (triggerEvent === undefined) {
+                triggerEvent = true;
             }
 
             return this.each(function() {
@@ -166,10 +168,10 @@
 
                 $(this).data('timer', data);
 
-                if (sendEvent === true) {
+                if (triggerEvent === true) {
                     $this.trigger('stop.timer', {
-                        delay: data.delay,
-                        repeatCount: data.repeatCount,
+                        delay: data.settings.delay,
+                        repeatCount: data.settings.repeatCount,
                         currentCount: data.currentCount,
                         running: data.running
                     });
