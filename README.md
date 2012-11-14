@@ -4,6 +4,9 @@ Demo: http://dev.maxschuster.eu/jQuery.timer/
 
 jQuery wrapper for setInterval() with events
 
+# Table of contents
+{:toc}
+
 # Example
 ```JavaScript
 var $timer = $({}).timer({
@@ -59,7 +62,7 @@ Stops the timer
 
 ### Usage:
 ```JavaScript
-$({}).timer('stop', true);
+$({}).timer('stop', triggerEvent);
 ```
 
 ### Parameter:
