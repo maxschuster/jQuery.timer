@@ -70,13 +70,18 @@
                     interval: null,
                     settings: {
                         delay: 1000,
-                        repeatCount: 1
+                        repeatCount: 1,
+                        autoStart: false
                     }
                 };
 
                 $.extend(data.settings, options);
 
                 $this.data('timer', data);
+                
+                if (data.settings.autoStart === true) {
+                    $this.timer('start');
+                }
 
             });
         },

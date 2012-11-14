@@ -5,30 +5,32 @@ and open the template in the editor.
 <!DOCTYPE html>
 <html>
     <head>
-        <title></title>
+        <title>jQuery.timer - Demo</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js" type="text/javascript"></script>
         <script src="jquery.timer.min.js" type="text/javascript"></script>
         <script>
             var $timer = $({}).timer({
                 'delay': 1000,
-                'repeatCount': 5
+                'repeatCount': 5,
+                'autoStart': true
             }).on('tick.timer complete.timer stop.timer start.timer reset.timer destroy.timer', function(e, d) {
-                console.log(e.type, d);
-            }).timer('start');
-            
-            setTimeout(function(){
-                $timer.timer('stop');
-                $timer.timer('start');
-                setTimeout(function(){
-                       $timer.timer('reset').timer('start').on('complete.timer', function(e,d) {
-                           $timer.timer('destroy');
-                       });
-                }, 3000);
-            }, 1500);
+                var $line = $('<div />');
+                $('#output').append($line);
+                var text = '<h2>' + e.type + '</h2>';
+                $.each(d, function(k,v){
+                    text += '<div>'+k+' '+v+'</div>';
+                });
+                $line.html(text);
+            }).timer('stop').timer('start').on('complete.timer', function () {
+                $(this).timer('destroy');
+            });
         </script>
     </head>
     <body>
-        <h1>Take a look at your browser console!</h1>
+        <h1>jQuery.timer - Demo</h1>
+        <fieldset id="output">
+            <legend>Events:</legend>
+        </fieldset>
     </body>
 </html>

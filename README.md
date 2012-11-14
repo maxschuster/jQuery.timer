@@ -186,3 +186,8 @@ The delay between <b>tick.timer</b> events in milliseconds. <br />
 The number of times the timer has to tick till its complete<br />
 <b>Type:</b> Integer<br />
 <b>Default:</b> 1
+
+## autoStart
+Start the timer after initializing<br />
+<b>Type:</b> Boolean<br />
+<b>Default:</b> false
