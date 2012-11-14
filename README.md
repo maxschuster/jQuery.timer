@@ -120,6 +120,43 @@ $({}).timer({
 });
 ```
 
+### Handler parameter
+<table>
+<tr>
+<th>
+Name
+</th>
+<th>
+Type
+</th>
+<th>
+Comment
+</th>
+</tr>
+<tr>
+<td>
+event
+</td>
+<td>
+Object
+</td>
+<td>
+jQuery event
+</td>
+</tr>
+<tr>
+<td>
+data
+</td>
+<td>
+Object
+</td>
+<td>
+Timer information (Boolean <b>running</b>, Integer <b>repeatCount</b>, Integer <b>delay</b>, Integer <b>currentCount</b>)
+</td>
+</tr>
+</table>
+
 ## tick.timer
 Dispatched whenever a Timer object reaches an interval specified according to the <b>delay</b> option.
 
