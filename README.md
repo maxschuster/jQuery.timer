@@ -111,6 +111,15 @@ $({}).timer('destroy');
 
 # Events
 
+## Usage Sample:
+```JavaScript
+$({}).timer({
+      'repeatCount': 5
+}).on('tick.timer, function(event, data) {
+      console.log(event, data);
+});
+```
+
 ## tick.timer
 Dispatched whenever a Timer object reaches an interval specified according to the <b>delay</b> option.
 
