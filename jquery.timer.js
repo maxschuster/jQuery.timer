@@ -15,41 +15,40 @@
  */
 
 (function($, undefined) {
-    var privateMethods = {
-        'tick': function() {
+    
+    function getEventData(data) {
+        return {
+            delay: data.settings.delay,
+            repeatCount: data.settings.repeatCount,
+            currentCount: data.currentCount,
+            running: data.running
+        };
+    }
+    function tick() {
 
-            return this.each(function() {
+        return this.each(function() {
 
-                var $this = $(this),
-                        data = $this.data('timer');
+            var $this = $(this),
+                    data = $this.data('timer');
 
-                $.extend(data, {
-                    currentCount: data.currentCount + 1
-                });
-
-                $(this).data('timer', data);
-
-                if (data.settings.repeatCount !== 0 && data.currentCount >= data.settings.repeatCount) {
-                    $this.timer('stop', false);
-                    $this.trigger('complete.timer', {
-                        delay: data.settings.delay,
-                        repeatCount: data.settings.repeatCount,
-                        currentCount: data.currentCount,
-                        running: data.running
-                    });
-                } else {
-                    $this.trigger('tick.timer', {
-                        delay: data.settings.delay,
-                        repeatCount: data.settings.repeatCount,
-                        currentCount: data.currentCount,
-                        running: data.running
-                    });
-                }
-
+            $.extend(data, {
+                currentCount: data.currentCount + 1
             });
 
-        }
-    };
+            $this.data('timer', data);
+
+            if (data.settings.repeatCount !== 0 && data.currentCount >= data.settings.repeatCount) {
+                $this.timer('stop', false);
+                $this.trigger('complete.timer', getEventData(data));
+            } else {
+                $this.trigger('tick.timer', getEventData(data));
+            }
+
+        });
+
+    }
+    ;
+
 
     var methods = {
         'init': function(options) {
@@ -63,7 +62,7 @@
                 if (data) {
                     $this.timer('destroy');
                 }
-                
+
                 data = {
                     currentCount: 0,
                     running: false,
@@ -78,7 +77,7 @@
                 $.extend(data.settings, options);
 
                 $this.data('timer', data);
-                
+
                 if (data.settings.autoStart === true) {
                     $this.timer('start');
                 }
@@ -91,18 +90,13 @@
 
                 var $this = $(this),
                         data = $this.data('timer');
-                
-                    $this.timer('stop', false);
-                    $this.trigger('destroy.timer', {
-                        delay: data.settings.delay,
-                        repeatCount: data.settings.repeatCount,
-                        currentCount: data.currentCount,
-                        running: data.running
-                    });
-                    // Namespacing FTW
-                    $this.off('.timer');
-                    $this.removeData('timer');
-                
+
+                $this.timer('stop', false);
+                $this.trigger('destroy.timer', getEventData(data));
+                // Namespacing FTW
+                $this.off('.timer');
+                $this.removeData('timer');
+
             });
 
         },
@@ -119,14 +113,9 @@
                     currentCount: 0
                 });
 
-                $(this).data('timer', data);
+                $this.data('timer', data);
 
-                $this.trigger('reset.timer', {
-                    delay: data.settings.delay,
-                    repeatCount: data.settings.repeatCount,
-                    currentCount: data.currentCount,
-                    running: data.running
-                });
+                $this.trigger('reset.timer', getEventData(data));
 
             });
         },
@@ -138,18 +127,13 @@
                         data = $this.data('timer');
 
                 $.extend(data, {
-                    interval: setInterval($.proxy(privateMethods.tick, $this), data.settings.delay),
+                    interval: setInterval($.proxy(tick, $this), data.settings.delay),
                     running: true
                 });
 
-                $(this).data('timer', data);
+                $this.data('timer', data);
 
-                $this.trigger('start.timer', {
-                    delay: data.settings.delay,
-                    repeatCount: data.settings.repeatCount,
-                    currentCount: data.currentCount,
-                    running: data.running
-                });
+                $this.trigger('start.timer', getEventData(data));
 
             });
 
@@ -171,15 +155,10 @@
                     running: false
                 });
 
-                $(this).data('timer', data);
+                $this.data('timer', data);
 
                 if (triggerEvent === true) {
-                    $this.trigger('stop.timer', {
-                        delay: data.settings.delay,
-                        repeatCount: data.settings.repeatCount,
-                        currentCount: data.currentCount,
-                        running: data.running
-                    });
+                    $this.trigger('stop.timer', getEventData(data));
                 }
 
             });

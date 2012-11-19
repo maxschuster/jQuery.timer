@@ -8,24 +8,73 @@ and open the template in the editor.
         <title>jQuery.timer - Demo</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js" type="text/javascript"></script>
-        <script src="jquery.timer.min.js" type="text/javascript"></script>
+        <script src="jquery.timer.js" type="text/javascript"></script>
         <script>
-            var $timer = $({}).timer({
-                'delay': 1000,
-                'repeatCount': 5,
-                'autoStart': true
-            }).on('tick.timer complete.timer stop.timer start.timer reset.timer destroy.timer', function(e, d) {
-                var $line = $('<div />');
-                $('#output').append($line);
-                var text = '<h2>' + e.type + '</h2>';
-                $.each(d, function(k,v){
-                    text += '<div>'+k+' '+v+'</div>';
+            $(document).ready(function(){
+                var $timer = $({}).timer({
+                    delay: 1000,
+                    repeatCount: 10,
+                    autoStart: false
+                }).on('tick.timer complete.timer stop.timer start.timer reset.timer destroy.timer', function(e, d) {
+                    var $line = $('<div class="' + e.type + '" />');
+                    $('#output').append($line);
+                    var text = '<h2>' + e.type + '</h2>';
+                    $.each(d, function(k,v){
+                        text += '<div>'+k+' '+v+'</div>';
+                    });
+                    $line.html(text);
+                }).timer('start').timer('stop').timer('start').on('complete.timer', function () {
+                    $(this).timer('destroy');
                 });
-                $line.html(text);
-            }).timer('stop').timer('start').on('complete.timer', function () {
-                $(this).timer('destroy');
             });
         </script>
+        <style type="text/css">
+            fieldset {
+                border-radius: 7px;
+                background: #ddd;
+            }
+            legend {
+                border: 1px solid #000;
+                padding: 5px;
+                border-radius: 7px;
+                background: #fff;
+            }
+            div {
+                padding: 10px;
+                margin: 20px 10px;
+                border: 1px solid #000;
+                border-radius: 7px;
+                background: #fff;
+            }
+            div div {
+                padding: 5px;
+                margin: 5px;
+            }
+            .start {
+                background: blue;
+            }
+            .start h2 {
+                color: #fff;
+            }
+            .tick {
+                background: yellow
+            }
+            .complete {
+                background: green;
+            }
+            .stop {
+                background: red;
+            }
+            .stop h2 {
+                color: #fff;
+            }
+            .destroy {
+                background: #000;
+            }
+            .destroy h2 {
+                color: #fff;
+            }
+        </style>
     </head>
     <body>
         <h1>jQuery.timer - Demo</h1>
